@@ -7,7 +7,7 @@ const data = ["title1", "title2", "title3"];
 let tags =  "";
 
 data.forEach((el)=> {
-    tags += `
+    tags + = `
     <article>
     <h1>${el}</h1>
     </article>
@@ -25,4 +25,12 @@ const asideEl = document.createElement("aside");
 asideEl.classList.add("modal");
 asideEl.innerText = "Modal";
 
-frame.append(asideEl);
+//const btnEl = document.createElement('button');
+//btnEl.innerText = 'CLOSE';
+//asideEl.append(btnEl);
+
+asideEl.innerHTML = `
+    <button>CLOSE</button>
+`;
+
+document.body.append(asideEl);
