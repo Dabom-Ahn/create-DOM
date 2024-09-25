@@ -1,7 +1,10 @@
 //innerHTML을 활용한 동적 DOM생성
 const frame = document.querySelector("section");
-const data = ["title1", "title2", "title3"];
-
+const data = [
+    { text: "title", bg: "hotpink" },
+    { text: "title2", bg: "aqua" },
+    { text: "title3", bg: "orange" },
+  ];
 //전체 태그 문자열이 담길 변수
 let tags = "";
 
@@ -9,7 +12,7 @@ let tags = "";
 data.forEach((el) => {
   tags += `
     <article>
-      <h1 class='tit'>${el}</h1>
+      <h1 class='tit' data-bg=${el.bg}>${el.text}</h1>
     </article>
   `;
 });
@@ -35,6 +38,7 @@ document.body.addEventListener("click", (e) => {
   //내가 화면상에 클릭한 요소가 .tit클래스를 가진 요소일때에만 모달창 생성
   if (e.target.className === "tit") {
     document.body.append(asideEl);
+    asideEl.style.backgroundColor = e.target.getAttribute("data-bg");
   }
 });
 
