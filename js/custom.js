@@ -1,36 +1,46 @@
+//innerHTML을 활용한 동적 DOM생성
 const frame = document.querySelector("section");
-
 const data = ["title1", "title2", "title3"];
 
-//innerHTML을 활용한 동적DOM생성 -> 내용이 자동으로 써짐! 대입하는거라 추가하면 지워지고 써짐
+//전체 태그 문자열이 담길 변수
+let tags = "";
 
-let tags =  "";
-
-data.forEach((el)=> {
-    tags + = `
+//배열을 반복돌면서 tags에 생성할 태그 문자열 쌓기
+data.forEach((el) => {
+  tags += `
     <article>
-    <h1>${el}</h1>
+      <h1 class='tit'>${el}</h1>
     </article>
-    `
+  `;
 });
 
-console.log(tags);
+//section요소안에 최종적으로 DOM생성
 frame.innerHTML = tags;
 
-// append로 동적DOM생성
-// 기존 선택자 안쪽의 요소들을 유지하면서 뒤쪽에 새롭게 추가
-//append의 인수값으로는 문자값이 아닌 실제 element Node 형태로 전달!
-// frame.append('<aside>Modal</aside>') 이렇게 하면 문자값으로 나옴
+//aside라는 엘리먼트 노드를 직접 생성하고 클래스명, 텍스트 추가
 const asideEl = document.createElement("aside");
 asideEl.classList.add("modal");
 asideEl.innerText = "Modal";
 
-//const btnEl = document.createElement('button');
-//btnEl.innerText = 'CLOSE';
-//asideEl.append(btnEl);
-
+//aside요소 안쪽의 복잡한 자식 요소 구조는 innerHTML로 생성
 asideEl.innerHTML = `
-    <button>CLOSE</button>
+  <div class='con'></div>
+  <button class='btnClose'>CLOSE</button>
 `;
 
-document.body.append(asideEl);
+//동적으로 생성된 요소에 이벤트 연결은 이벤트위임 처리
+//이벤트 위임: 항상 존재하는 body요소에 이벤트를 맡겼다가 위임처리
+document.body.addEventListener("click", (e) => {
+  //console.log(e.target);
+  //내가 화면상에 클릭한 요소가 .tit클래스를 가진 요소일때에만 모달창 생성
+  if (e.target.className === "tit") {
+    document.body.append(asideEl);
+  }
+});
+
+//DOM요소를 완전히 제거 (DOM트리에서 제거)
+document.body.addEventListener("click", (e) => {
+  if (e.target.className === "btnClose") {
+    document.querySelector(".modal").remove();
+  }
+});
